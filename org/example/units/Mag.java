@@ -12,6 +12,9 @@ public class Mag extends BaseHero {
 //        spells_books.add(new Spells("Фаербол"));
 //        spells_books.add(new Spells("Увеличение брони"));
 //        spells_books.add(new Spells("Увеличение урона"));
+
     }
+    @Override
+    public String getInfo(){return "я маг";}
 }
 

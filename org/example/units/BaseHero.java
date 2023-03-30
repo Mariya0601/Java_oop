@@ -1,6 +1,8 @@
 package org.example.units;
 
-public class BaseHero {
+import java.util.Random;
+
+public class BaseHero implements GameInterface {
     float hp, maxHp;
     String name;
     String class_name;
@@ -15,15 +17,20 @@ public class BaseHero {
 
     public BaseHero(float hp, String name, int x, int y,int armor,int [] damage, String class_name){
         this.hp = this.maxHp = hp;
-        this.name = name;
+        this.name = getName() ;
         this.x = x;
         this.y = y;
         this.armor = armor;
         this.damage = damage;
         this.class_name = class_name;
-
-
-
     }
+//    @Override
+//    public void step(){}
 
+    @Override
+    public String getInfo(){return "я";
+    }
+    public String getName(){
+        return Names.values()[new Random().nextInt(Names.values().length)].toString();
+    }
 }

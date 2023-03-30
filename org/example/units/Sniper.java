@@ -8,6 +8,8 @@ public class Sniper extends BaseHero{
         arrows =10;
         accuracy = 70;
     }
+    @Override
+    public String getInfo(){return "я снайпер";}
 }
 
 

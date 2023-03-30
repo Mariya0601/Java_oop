@@ -10,4 +10,7 @@ public class Monk extends BaseHero{
         super(150, name, 1, 6, 30, new int[]{5, 8},"Монах");
         mana = 80;
     }
+    @Override
+    public String getInfo(){return "я монах";}
+
 }
