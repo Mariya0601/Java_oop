@@ -1,4 +1,4 @@
-package org.example.units;
+package org.example;
 
 public enum Names {
     Александр,Лука,Матвей ,Николай ,Федор,Аделина,Амелия, Анастасия, Ария, Вера, Камилла

@@ -1,12 +1,23 @@
 package org.example.units;
 
-public abstract class  Shooter extends BaseHero {
-    int accurance;
-    int ammoReserve;
+import java.util.ArrayList;
 
-    public Shooter(String name) {
-        super(80, name, 1, 6, 50, new int[]{3,5}, "Стрелок");
-        accurance = 50;
-        ammoReserve = 50;
+public abstract class  Shooter extends BaseHero {
+    int arrows;
+    int accuracy;
+
+    public Shooter(float hp, String name, boolean team, int armor, int[] damage) {
+        super(hp, name, team, armor, damage);
+        this.armor = arrows;
+        this.accuracy = accuracy;
     }
+    protected void shoot(BaseHero enemy){
+//
+    }
+
+    public void step(ArrayList<BaseHero> enemyTeam){
+        if (hp <= 0 || arrows <= 0) return;
+        shoot(findClosestEnemy(enemyTeam));
+    }
+
 }

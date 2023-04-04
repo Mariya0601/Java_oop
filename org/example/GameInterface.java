@@ -1,5 +1,6 @@
-package org.example.units;
+package org.example;
 
 public interface GameInterface {
+    void step();
     String getInfo();
 }

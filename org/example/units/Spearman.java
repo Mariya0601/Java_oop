@@ -1,9 +1,17 @@
 package org.example.units;
 
-public class Spearman extends BaseHero{
-    public Spearman(String name) {
-        super(200, name, 1, 6, 80, new int[]{10,20},"Копейщик");
+import java.util.ArrayList;
+
+public  class Spearman extends BaseHero{
+    public Spearman(String name, boolean firstTeam) {
+        super(200, name,firstTeam, 80,new int[]{10,20});
     }
+
     @Override
-    public String getInfo(){return "я копейщик";}
+    public String getInfo(){return "я Копьеносец";}
+
+    @Override
+    public void step(ArrayList<BaseHero> enemyTeam) {
+
+    }
 }
