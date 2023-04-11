@@ -3,18 +3,16 @@ package org.example.units;
 import java.util.ArrayList;
 
 public class Monk extends BaseHero{
-    int mana;
-    protected ArrayList<Spells> spells_books;
+    protected int mana;
+
+    protected ArrayList<Spells> spellsBook;
 
     public Monk(String name, boolean firstTeam) {
-        super(150, name,firstTeam, 30, new int[]{5, 8});
+        super("Монах", 50, name, firstTeam, 5, new int[]{2, 4}, 8);
+        mana = 80;
     }
-
     @Override
-    public String getInfo(){return "я монах";}
-
-    @Override
-    public void step(ArrayList<BaseHero> enemyTeam) {
-
+    public String getInfo() {
+        return className + " " + name;
     }
 }

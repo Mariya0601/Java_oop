@@ -4,14 +4,12 @@ import java.util.ArrayList;
 
 public  class Spearman extends BaseHero{
     public Spearman(String name, boolean firstTeam) {
-        super(200, name,firstTeam, 80,new int[]{10,20});
+        super("Копейщик",50, name, firstTeam, 30, new int[]{12, 24}, 7);
     }
 
-    @Override
-    public String getInfo(){return "я Копьеносец";}
 
     @Override
-    public void step(ArrayList<BaseHero> enemyTeam) {
-
+    public String getInfo() {
+        return className + " " + name;
     }
 }
