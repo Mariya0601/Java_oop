@@ -16,10 +16,13 @@ public class Team<T extends BaseHero> implements Iterable<BaseHero> {
             return this.name;
         }
 
-        public Team(String name, boolean ally, int size) {
+        public Team() {
+        this.heroes = new ArrayList<>();
+        }
+
+        public Team(String name) {
             this.heroes = new ArrayList<>();
             this.name = name;
-            createTeam(size, ally);
         }
 
         private void createTeam(int size, boolean firstTeam) {
@@ -53,26 +56,42 @@ public class Team<T extends BaseHero> implements Iterable<BaseHero> {
             return heroes.get(index);
         }
 
-        @Override
-        public Iterator<BaseHero> iterator() {
-            Iterator<BaseHero> it = new Iterator<BaseHero>() {
+    @Override
+    public Iterator<BaseHero> iterator() {
 
-                private int index = 0;
-                @Override
-                public boolean hasNext() {
-                    return index < heroes.size();
-                }
+        return new Iterator<BaseHero>() {
 
-                @Override
-                public BaseHero next() {
-                    return heroes.get(index++);
-                }
-            };
-            return it;
+            private int index = 0;
 
-        }
+            @Override
+            public boolean hasNext() {
+                return index < heroes.size();
+            }
+
+            @Override
+            public BaseHero next() {
+                return heroes.get(index++);
+            }
+
+        };
+
+    }
+
         public int size() {
             return heroes.size();
         }
+        public void add(T hero) {
+        heroes.add(hero);
+        }
+
+        public boolean isEmpty() {
+        return heroes.isEmpty();
+         }
+
+         public boolean contains(T human) {
+        return heroes.contains(human);
+        }
+
+
     }
 

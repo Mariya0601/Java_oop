@@ -1,63 +1,76 @@
 package org.example;
 
+
+import org.example.teams.Team;
+import org.example.units.BaseHero;
 import org.example.units.*;
 
-import javax.lang.model.element.Name;
-import java.util.*;
-
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
+    static Team<BaseHero> allTeam = BaseHero.getAllTeam();
+    static Team<BaseHero> holyTeam = BaseHero.getHolyTeam();
+    static Team<BaseHero> darkTeam = BaseHero.getDarkTeam();
+
     public static void main(String[] args) {
-
-//        printHeader("Порядок ходов");
-
-//        printInitiativeList(getSortedIndexList());
-
-//        printInitiativeList();
-
-        startGame();
-
+        Main game = new Main();
+        game.startGame();
     }
 
-    private static boolean gameEnded() {
+
+    protected boolean gameEnded() {
         return BaseHero.filterLiveTeam(BaseHero.getHolyTeam()).isEmpty() || BaseHero.filterLiveTeam(BaseHero.getDarkTeam()).isEmpty();
     }
 
-    private static void startGame() {
+    public void startGame() {
+        try (FileWriter writer = new FileWriter("actionsLog.txt", false)) {
+            ;
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
         printHeader("Игра начинается");
         Scanner scanner = new Scanner(System.in);
         String input = "";
         int turnsCounter = 0;
         createTeams();
-        while (!gameEnded() && !
-                Objects.equals(input, "q")) {
+//        View.view();
+        originalView.view();
+        while (!gameEnded() && !Objects.equals(input, "q")) {
             System.out.println("Нажмите enter для продолжения, или введите q для выхода");
             input = scanner.nextLine();
             if (Objects.equals(input, "q")) break;
-            View.view();
             turnsCounter++;
 //            System.out.println("Ход №" + turnsCounter);
 //            showTeams();
             teamsMakeTurns();
+//            View.view();
+            originalView.view();
         }
-        View.view();
         if (gameEnded()) {
             printHeader("Игра закончена");
             printWin();
         }
     }
 
-    private static void printWin() {
+    public static String getName() {
+        return Names.values()[new Random().nextInt(Names.values().length)].toString();
+    }
+
+    protected void printWin() {
         if (BaseHero.filterLiveTeam(BaseHero.getHolyTeam()).isEmpty())
             printHeader("Все персонажи в первой команде мертвы\nПобедила вторая команда");
         else
             printHeader("Все персонажи во второй команде мертвы\nПобедила первая команда");
     }
 
-    private static void teamsMakeTurns() {
+    public void teamsMakeTurns() {
 //        Scanner scanner = new Scanner(System.in);
         int[] orderIndexes = getSortedIndexList();
-        ArrayList<BaseHero> allHeroesList = BaseHero.getAllTeam();
+        Team<BaseHero> allHeroesList = BaseHero.getAllTeam();
 //        printHeader("Ходы");
         for (int id : orderIndexes) {
 //            scanner.nextLine();
@@ -65,7 +78,7 @@ public class Main {
         }
     }
 
-    private static void showTeams() {
+    protected void showTeams() {
         printHeader("Команды");
         printHeader("Первая команда");
         for (BaseHero hero : BaseHero.getHolyTeam()) {
@@ -79,16 +92,16 @@ public class Main {
         }
     }
 
-    private static void printInitiativeList(int[] orderIndexes) {
-        ArrayList<BaseHero> allHeroesList = BaseHero.getAllTeam();
+    protected void printInitiativeList(int[] orderIndexes) {
+        Team<BaseHero> allHeroesList = BaseHero.getAllTeam();
         for (int id : orderIndexes) {
             BaseHero hero = allHeroesList.get(id);
             System.out.println(hero.getInfo() + " Инициатива: " + hero.getInitiative());
         }
     }
 
-    private static int[] getSortedIndexList() {
-        ArrayList<BaseHero> allHeroesList = BaseHero.getAllTeam();
+    protected int[] getSortedIndexList() {
+        Team<BaseHero> allHeroesList = BaseHero.getAllTeam();
         int[] indexes = getIndexesArray(BaseHero.getAllTeam());
         for (int count = 0; count < indexes.length; count++) {
             boolean sorted = true;
@@ -106,7 +119,7 @@ public class Main {
         return indexes;
     }
 
-    private static int[] getIndexesArray(ArrayList<BaseHero> AllHeroes) {
+    protected int[] getIndexesArray(Team<BaseHero> AllHeroes) {
         int[] orderIndexes = new int[AllHeroes.size()];
         int i = 0;
         for (BaseHero hero : AllHeroes) {
@@ -115,24 +128,19 @@ public class Main {
         return orderIndexes;
     }
 
-    private static void printInitiativeList() {
-        PriorityQueue<BaseHero> initiativeList = BaseHero.getInitiativeList();
-        printHeader("Очерёдность ходов");
-        while (!initiativeList.isEmpty()) {
-            System.out.println(initiativeList.poll());
-        }
-    }
+//    protected void printInitiativeList() {
+//        PriorityQueue<BaseHero> initiativeList = BaseHero.getInitiativeList();
+//        printHeader("Очерёдность ходов");
+//        while (!initiativeList.isEmpty()) {
+//            System.out.println(initiativeList.poll());
+//        }
+//    }
 
-    public static void printHeader(String text) {
+    protected static void printHeader(String text) {
         System.out.println("_".repeat(150) + "\n" + text + "\n" + "_".repeat(150));
     }
 
-
-    public static String getName() {
-        return Names.values()[new Random().nextInt(Names.values().length)].toString();
-    }
-
-    private static void createTeam(boolean firstTeam) {
+    protected void createTeam(boolean firstTeam) {
         new Farmer(getName(), firstTeam);
         for (int i = 0; i < 9; i++) {
             int random = new Random().nextInt(7);
@@ -161,12 +169,10 @@ public class Main {
         }
     }
 
-    private static void createTeams() {
+    protected void createTeams() {
         createTeam(true);
         createTeam(false);
     }
-
-
 
 }
 

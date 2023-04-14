@@ -1,6 +1,7 @@
 package org.example.units;
 
-import java.util.ArrayList;
+import org.example.teams.Team;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -19,7 +20,7 @@ public abstract class  Shooter extends BaseHero {
 //        System.out.println(this.getInfo() + " стреляет в " + enemy.getInfo());
         enemy.getDamage(dmg);
     }
-    protected boolean hasLiveStandPeasant(ArrayList<BaseHero> allyTeam) {
+    protected boolean hasLiveStandPeasant(Team<BaseHero> allyTeam) {
         for (BaseHero hero : allyTeam) {
             if (Objects.equals(hero.className, "Фермер") && Objects.equals(hero.state, "Stand")) {
                 return true;
@@ -27,7 +28,7 @@ public abstract class  Shooter extends BaseHero {
         }
         return false;
     }
-    protected BaseHero getLivePeasant(ArrayList<BaseHero> allyTeam) {
+    protected BaseHero getLivePeasant(Team<BaseHero> allyTeam) {
         for (BaseHero hero : allyTeam) {
             if (Objects.equals(hero.className, "Фермер") && Objects.equals(hero.state, "Stand")) {
                 return hero;
@@ -37,19 +38,18 @@ public abstract class  Shooter extends BaseHero {
     }
 
     public void step(){
-        super.step();
         if (Objects.equals(state, "Dead")) return;
-        ArrayList<BaseHero> allyTeam = getAllyTeam();
-        ArrayList<BaseHero> enemyTeam = filterLiveTeam(getEnemiesTeam());
+        Team<BaseHero> allyTeam = getAllyTeam();
+        Team<BaseHero> enemyTeam = filterVisibleTeam(getEnemyTeam());
         if (enemyTeam.isEmpty()) return;
         if (hasLiveStandPeasant(allyTeam)) {
             this.arrows++;
-            BaseHero peasant = getLivePeasant(allyTeam);
+            BaseHero peasant = getLiveAlly("Фермер");
             peasant.state = "Busy";
 //            System.out.println(getInfo() + " берёт стрелу от " + peasant.getInfo());
         }
         if (this.arrows <= 0) return;
-        BaseHero closestEnemy = findClosestEnemy(enemyTeam);
+        BaseHero closestEnemy = findClosestEnemy();
         shoot(closestEnemy);
     }
     @Override
